@@ -1,12 +1,6 @@
 import axios from 'axios';
 import config from "../config";
 
-// const https = require('https');
-//
-// const agent = new https.Agent({
-//     rejectUnauthorized: false,
-// });
-
 const instance = axios.create({
     baseURL: config.WS_BASE_URL,
 });
@@ -23,7 +17,7 @@ export const getAll = async () => (
 );
 
 export const register = async (name, email, password, phone, agency, role) => (
-    await instance.post('users/register', {name, email, password, phone, agency, role})
+    await instance.post('users/register', { name, email, password, phone, agency, role })
 );
 
 export const confirmRegister = async id => (
@@ -31,21 +25,33 @@ export const confirmRegister = async id => (
 );
 
 export const forgotPassword = async email => (
-    await instance.post('users/forgotpassword', {email})
+    await instance.post('users/forgotpassword', { email })
 );
 
 export const confirmReset = async (id, password) => (
-    await instance.post(`users/resetpass/${id}`, {password})
+    await instance.post(`users/resetpass/${id}`, { password })
 );
 
 export const login = async (email, password) => (
-    await instance.post('users/login', {email, password})
+    await instance.post('users/login', { email, password })
 );
 
 export const logout = async token => (
-    await instance.post('users/logout', {token})
+    await instance.post('users/logout', { token })
 );
 
 export const edit = async (userID, name, email) => (
-    await instance.post('/users/edit', {userID, name, email})
+    await instance.post('/users/edit', { userID, name, email })
 );
+
+export const getCourse = async id => (
+    await instance.get(`course/getCourse/${id}`)
+);
+
+export const getCourseItem = async id => (
+    await instance.get(`course/courseItem/${id}`)
+)
+
+export const getAllComments = async parentCourseItemId => (
+    await instance.get(`comment/getAllComments/${parentCourseItemId}`)
+)

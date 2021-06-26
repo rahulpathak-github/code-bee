@@ -1,0 +1,76 @@
+.portfolio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+    position: relative;
+  }
+
+  .portfolio h1 {
+    font-size: 50px;
+    color: white !important;
+  }
+  .portfolio ul {
+    margin: 10px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+  }
+  .portfolio ul li {
+    color: white;
+    font-size: 14px;
+    margin-right: 50px;
+    padding: 7px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .portfolio ul li.active {
+    background-color: #453562;
+    color: white;
+  }
+
+  .portfolio ul li:hover {
+    background-color: #453562;
+    color: white;
+  }
+  .portfolio .containerr {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .portfolio .containerr .itemm {
+    width: 220px;
+    height: 150px;
+    border-radius: 20px;
+    border: 1px solid #f0efef;
+    margin: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+    transition: all 0.5s ease;
+    cursor: pointer;
+  }
+  .portfolio .containerr .itemm h3 {
+    position: absolute;
+    font-size: 20px;
+    color: black !important;
+  }
+  .portfolio .containerr .itemm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-radius: 20px;
+  }
+  .portfolio .containerr .itemm:hover {
+    background-color: #453562;
+  }
+  .portfolio .containerr .itemm:hover img {
+    opacity: 0.2;
+    z-index: 0;
+  }
+  

@@ -16,6 +16,7 @@ const CommentList = ({ comments }) => (
     />
 );
 
+
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
     <>
         <Form.Item>
@@ -30,14 +31,17 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 
 
+
 function Discussion(props) { // pros -> courseItem id
     const [state, setState] = useState({ comments: [], submitting: false, value: "" });
+
 
 
     async function handleSubmit() {
         if (!state.value) {
             return;
         }
+
 
         setState({ ...state, submitting: true });
 
@@ -55,10 +59,12 @@ function Discussion(props) { // pros -> courseItem id
                     datetime: moment().fromNow(),
                 },
             ],
+
         });
     }
 
     return (
+
         <>
             <Comment
                 avatar={
@@ -77,8 +83,11 @@ function Discussion(props) { // pros -> courseItem id
                 }
             />
             {state.comments.length > 0 && <CommentList comments={state.comments} />}
+
         </>
     );
 }
 
+
 export default Discussion;
+
