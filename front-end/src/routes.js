@@ -1,56 +1,38 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
 import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
 import ConfirmEmail from "./views/examples/ConfirmEmail";
 import EditProfile from "./views/examples/EditProfile";
 import UsersTable from "./views/examples/UsersTable";
 import ResetPassword from "./views/examples/ResetPassword";
 import ConfirmPassword from "./views/examples/ConfirmPassword";
 import ResetPasswordSuccess from "./views/examples/ResetPasswordSuccess";
-
+import HomePage from './home/index';
+import Home from './layouts/Home.js';
 var routes = [
+  {
+    path: "/home",
+    name: "HomePage",
+    icon: "ni ni-key-25 text-info",
+    component: HomePage,
+    layout: "",
+    api: true
+  },
+  {
+    path: "/Home",
+    name: "Home",
+    icon: "ni ni-tv-2 text-primary",
+    component: Home,
+    layout: "/admin",
+    api: false
+  },
   {
     path: "/index",
     name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin",
-    api: false
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin",
-    api: false
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Profile,
     layout: "/admin",
     api: false
   },
@@ -62,14 +44,7 @@ var routes = [
     layout: "/admin",
     api: true
   },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
-    api: false
-  },
+  
   {
     path: "/login",
     name: "Login",
@@ -99,14 +74,6 @@ var routes = [
     name: "Edit Profile",
     icon: "ni ni-ruler-pencil text-info",
     component: EditProfile,
-    layout: "/admin",
-    api: true
-  },
-  {
-    path: "/users",
-    name: "Users",
-    icon: "ni ni-folder-17 text-pink",
-    component: UsersTable,
     layout: "/admin",
     api: true
   },
