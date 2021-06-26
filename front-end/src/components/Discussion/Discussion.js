@@ -65,7 +65,7 @@ function CommentBox(props) {
         <Comment
             avatar={
                 <Avatar
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    src="https://spiderimg.amarujala.com/assets/images/2019/01/21/750x506/sarthak_1548056481.jpeg"
                     alt={user.name}
                 />
             }
