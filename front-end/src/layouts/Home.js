@@ -9,7 +9,7 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
 import HomeNavbar from "components/Navbars/HomeNavbar";
-
+import ChatBot from './ChatBot';
 class Home extends React.Component {
     componentDidMount() {
         document.body.classList.add("bg-default");
@@ -75,6 +75,7 @@ class Home extends React.Component {
                             </Switch>
                         </Row>
                     </Container>
+                    {localStorage.getItem("user") && <ChatBot />}
                 </div>
                 <AuthFooter />
             </>
