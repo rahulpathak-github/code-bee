@@ -1,4 +1,4 @@
-dbPasswordDev = 'mongodb+srv://rahul:1234@cluster0.u4xph.mongodb.net/hackathon?retryWrites=true&w=majority';
+dbPasswordDev = 'mongodb+srv://admin:admin@cluster0.ldchh.mongodb.net/code-bee?retryWrites=true&w=majority';
 
 // for PRODUCTION
 // const MONGO_USERNAME = 'sammy';

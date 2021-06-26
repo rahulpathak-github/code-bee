@@ -86,9 +86,9 @@ function CourseItem(props) {
     useEffect(() => {
         fetchCourseItems()
     }, [])
-    var content = () => { setVisible(0); }
-    var notes = () => { setVisible(1); }
-    var discussion = () => { setVisible(2); }
+    var content = () => { setVisible(0); if(play===2){setPlay(0);}}
+    var notes = () => { setVisible(1);if(play===2){setPlay(0);}}
+    var discussion = () => { setVisible(2);if(play===2){setPlay(0);}}
     var changeId=async(index)=>{
         await setId(index);
         fetchCourseItems();
@@ -96,18 +96,11 @@ function CourseItem(props) {
     var visualize = () => { play=== 0 ? setPlay(1):setPlay(0); }
     var editor = () => { 
         play===2 ? setPlay(0): setPlay(2);
+        visible===3 ? setVisible(0):setVisible(3);
     }
     return (
          <div>
-            <div>                
-                <div style={{ display: `${play == 2 ? 'block' : 'none'}` }}>
-                    <iframe 
-                        src="https://trinket.io/embed/python/f7e7437066"
-                        width="100%" height="600" 
-                        frameborder="0" marginwidth="0" 
-                        marginheight="0" allowfullscreen
-                    />
-                </div>
+            <div>               
                 <div 
                     className="course-item-video embed-responsive embed-responsive-16by9"
                     style={{ display: `${play == 0 ? 'block' : 'none'}` }}
@@ -170,7 +163,9 @@ function CourseItem(props) {
                 <button className="btn btn-warning" onClick={visualize}>
                     {`${play == 0 ? 'Visualize' : 'Video'}`}
                 </button>
-                {(play!==2) && <button className="btn" onClick={editor} id="editor">Editor</button>}
+                <button className="btn" onClick={editor}>
+                    {`${play == 2 ? 'Back' : 'Editor'}`}
+                </button>
             </div>            
             <div className="display">
                 <div className="Course-main" style={{ display: `${visible == 0 ? 'block' : 'none'}` }}>
@@ -185,10 +180,19 @@ function CourseItem(props) {
                     </div>
                 </div>
                 <p className="course-item-overview" style={{ display: `${visible == 1 ? 'block' : 'none'}` }}>
-                    {courseItem.overView}
+                    {courseItem.reading}
                 </p>
                 <div style={{ display: `${visible == 2 ? 'block' : 'none'}`, marginLeft: "5%", marginRight: "5%" }}>
                     {courseItem._id ? <Discussion _id={courseItem._id} /> : null}
+                </div>
+                <div style={{ display: `${play == 2 ? 'block' : 'none'}` }}>
+                    <iframe 
+                        src="https://trinket.io/embed/python/f7e7437066"
+                        width="100%" height="600" 
+                        frameborder="0" marginwidth="0" 
+                        marginheight="0" allowfullscreen
+                        style={{minHeight:"90vh"}}
+                    />
                 </div>
             </div>
         </div>

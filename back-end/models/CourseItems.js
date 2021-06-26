@@ -17,7 +17,7 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    animation: String,
+    video: String,
     childComments: [mongoose.Schema.Types.ObjectId]
 });
 
