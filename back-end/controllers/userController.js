@@ -80,6 +80,7 @@ exports.register = async (req, res, next) => {
                     User.create(query, async (err, user) => {
                         if (err) throw err;
 
+
                         if (process.env.DEMO != 'yes') {
 
                             await sendEmail({
@@ -90,6 +91,7 @@ exports.register = async (req, res, next) => {
 
                             res.json({ success: true, msg: 'The user was succesfully registered' });
                         }
+
                         else res.json({ success: true, userID: user._id, msg: 'The user was succesfully registered' });
                     });
                 });
@@ -99,4 +101,17 @@ exports.register = async (req, res, next) => {
     } catch (err) {
         throw err
     }
+}
+
+
+exports.logout = async (req, res, next) => {
+    try {
+        const { token } = req;
+        await ActiveSession.deleteMany({ token: token })
+        res.json({ success: true });
+    } catch (err) {
+        res.json({ success: false });
+        //throw err
+    }
+
 }
