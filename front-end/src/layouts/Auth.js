@@ -35,7 +35,7 @@ class Auth extends React.Component {
   }
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
+      if (prop.layout === "/auth" || prop.layout == "") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -60,8 +60,7 @@ class Auth extends React.Component {
                   <Col lg="5" md="6">
                     <h1 className="text-white">Welcome!</h1>
                     <p className="text-lead text-light">
-                      Use these awesome forms to login or create new account in
-                      your project for free.
+                      Learn through visualizing.
                     </p>
                   </Col>
                 </Row>
