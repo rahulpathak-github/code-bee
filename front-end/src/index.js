@@ -20,7 +20,7 @@ import HomeNavbar from "components/Navbars/HomeNavbar";
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      {/* <Route path="/home" component={HomeLayout}> <Index /> </Route> */}
+      <Route path="/discussion" > <Discussion /> </Route>
       <Route path="/home"> <Home /> </Route>
       <PrivateRoute path="/admin" component={AdminLayout} />
       <PrivateRoute path="/course" component={CourseLayout} />

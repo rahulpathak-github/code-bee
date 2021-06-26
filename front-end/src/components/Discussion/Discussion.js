@@ -5,6 +5,10 @@ import moment from 'moment';
 import "antd/dist/antd.css";
 import { useState } from 'react';
 import { getAllComments } from './../../network/ApiAxios';
+import 'react-chat-widget/lib/styles.css';
+import { useCallback } from 'react';
+import { Widget, addResponseMessage } from 'react-chat-widget';
+
 
 const socketio = require('socket.io-client');
 const { TextArea } = Input;
@@ -82,6 +86,26 @@ function CommentBox(props) {
 }
 
 function Discussion(props) { // props -> courseItem id
+
+    // useEffect(() => {
+    //     addResponseMessage('Welcome to this awesome chat!');
+    // }, []);
+
+    // const handleNewUserMessage = (newMessage) => {
+    //     console.log(`New message incoming! ${newMessage}`);
+    //     // Now send the message throught the backend API
+    //     addResponseMessage("response");
+    // };
+
+    // return (
+    //     <Widget
+    //         handleNewUserMessage={handleNewUserMessage}
+    //         title='My E-commerce Live Chat'
+    //         subtitle='Ready to help you'
+    //     />
+    // );
+
+
     const [state, setState] = useState([]);
     const socketClientRef = useRef()
 
@@ -101,7 +125,6 @@ function Discussion(props) { // props -> courseItem id
     }
 
     async function getComments() {
-        // console.log("In Discussion");
         const items = await getAllComments(props._id);
         const updatedComments = [];
         for (let i = items.data.length - 1; i >= 0; --i) {
@@ -111,8 +134,10 @@ function Discussion(props) { // props -> courseItem id
     }
 
     useEffect(() => {
-
         getComments();
+    }, [props._id]);
+
+    useEffect(() => {
         const io = socketio("http://localhost:5100/", {
             query: {
                 token: localStorage.getItem("token"),

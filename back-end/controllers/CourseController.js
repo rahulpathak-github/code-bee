@@ -28,9 +28,7 @@ exports.getCourse = async function (req, res) {
 
 exports.getCourseItem = async function (req, res) {
     try {
-
         const { id } = req.params;
-        console.log(id)
         const item = await CourseItem.findById(id);
         res.status(200).json(item);
     } catch (error) {
