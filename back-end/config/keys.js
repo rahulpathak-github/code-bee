@@ -17,7 +17,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-dbPasswordDev ='mongodb://localhost/boilerplate';
+dbPasswordDev = 'mongodb+srv://admin:admin@cluster0.ldchh.mongodb.net/code-bee?retryWrites=true&w=majority';
 
 // for PRODUCTION
 // const MONGO_USERNAME = 'sammy';
