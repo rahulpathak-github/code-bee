@@ -45,7 +45,7 @@ function CommentBox(props) {
             }, withCredentials: true
         });
         socketClientRef.current = io
-    }, []);
+    }, [props._id]);
     async function handleSubmit() {
         if (!state.value) {
             return;
@@ -133,11 +133,10 @@ function Discussion(props) { // props -> courseItem id
         setState(updatedComments);
     }
 
-    useEffect(() => {
-        getComments();
-    }, [props._id]);
+
 
     useEffect(() => {
+        getComments()
         const io = socketio("http://localhost:5100/", {
             query: {
                 token: localStorage.getItem("token"),
@@ -149,7 +148,7 @@ function Discussion(props) { // props -> courseItem id
         io.on("likedmessage", reacted);
         io.on("dislikedmessage", reacted);
         socketClientRef.current = io
-    }, []);
+    }, [props._id]);
 
     async function like(e) {
         let v = e.target;
