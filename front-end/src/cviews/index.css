@@ -1,0 +1,94 @@
+.course-write{
+    background-color:#7bddd5;
+    height: 250px;
+    width: 100%;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 0px;
+}
+
+.course-h1{
+   color: white !important;
+   font-size: 40px;  
+}
+.course-h4{
+    font-size: 15px;
+}
+
+.course-btn{
+    font-size: larger !important ;
+    background-color: #09a3be !important ;
+  color: white !important ;
+  font-size: 20px !important ;
+  padding: 7px 40px!important ;
+  border-radius: 5px !important ;
+  margin: 10px 0px !important ;
+  cursor: pointer !important ;
+}
+
+@media only screen and (max-width: 600px) {
+    .course-h1 {
+      font-size: 25px;
+    }
+    .course-h4{
+        font-size: 15px;
+    }
+    .course-write{
+        width:auto;
+        height: 280px;
+        padding-left:10px;
+        padding-right:10px;
+    }
+    .course-btn{
+        font-size: larger !important ;
+        background-color: #11CDEF !important ;
+      color: white !important ;
+      font-size: 15px !important ;
+      padding: 8px 30px!important ;
+      border-radius: 5px !important ;
+      margin: 5px 0px !important ;
+      cursor: pointer !important ;
+    }
+  }
+
+  @media only screen and (min-width: 600px){
+    .course-h1 {
+        font-size: 30px;
+      }
+    .course-h4{
+          font-size: 15px;
+      }
+      .course-write{
+          width:auto;
+      }
+  }
+  @media only screen and (min-width: 768px){
+    .course-write {
+        font-size: 40px;
+
+      }
+      .course-landing{
+          width: auto;
+      }
+    .course-h4{
+          font-size: 15px;
+      }
+      .course-write{
+          width:auto;
+      }
+  }
+  @media only screen and (min-width: 1200px){
+
+    .course-h1{
+        color: white !important;
+        font-size: 40px; 
+        width: 1000px; 
+     }
+    .course-h4{
+         font-size: 16px;
+         width: auto;
+     }
+     .course-write{
+         width: auto;
+     }
+  }
