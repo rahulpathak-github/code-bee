@@ -30,10 +30,37 @@ exports.getCourseItem = async function (req, res) {
     try {
 
         const { id } = req.params;
+        console.log(id)
         const item = await CourseItem.findById(id);
         res.status(200).json(item);
     } catch (error) {
         res.status(404).json({ message: error });
         throw error;
+    }
+}
+
+exports.addCourse = async (req, res, next) => {
+    try {
+        const { name, summary } = req.body
+        const query = {
+            name, summary
+        }
+        await Course.create(query)
+        res.json({ success: true })
+    } catch (err) {
+        throw err;
+    }
+}
+
+exports.addCourseItem = async (req, res, next) => {
+    try {
+        const { name, overView, reading } = req.body
+        const query = {
+            name, overView, reading
+        }
+        await CourseItem.create(query)
+        res.json({ success: true })
+    } catch (err) {
+        throw err;
     }
 }

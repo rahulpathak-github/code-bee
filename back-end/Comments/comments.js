@@ -43,6 +43,37 @@ module.exports.setupSocket = (server) => {
             io.in(courseItem_id).emit("newComment", newComment);
         });
 
+        socket.on("deleteMessage", async data => {
+            console.log("Delete");
+            const { comment_id, courseItem_id } = data
+            await Comment.findByIdAndDelete(comment_id)
+            const courseItem = await CourseItem.findById(courseItem_id)
+            courseItem.childComments = courseItem.childComments.filter(id => id !== comment_id)
+            await courseItem.save()
+            io.in(courseItem_id).emit("deletedMessage", { comment_id });
+        });
+
+        socket.on("like", async data => {
+            console.log("like");
+            const { comment_id, courseItem_id, user } = data
+            const comment = await Comment.findByIdAndUpdate(comment_id, {
+                $inc: { likes: 1 },
+                $push: { likers: user._id }
+            }, { new: true });
+            // console.log(comment);
+            io.in(courseItem_id).emit("likedmessage", comment);
+        });
+
+        socket.on("dislike", async data => {
+            console.log("dislike");
+            const { comment_id, courseItem_id, user } = data
+            const comment = await Comment.findByIdAndUpdate(comment_id, {
+                $inc: { dislikes: 1 },
+                $push: { dislikers: user._id }
+            }, { new: true });
+            io.in(courseItem_id).emit("dislikedmessage", comment);
+        });
+
         socket.on("typing", (data) => {
             if (data.typing == true)
                 io.in(data.courseItem_id).emit('display', data)
@@ -51,3 +82,4 @@ module.exports.setupSocket = (server) => {
         })
     });
 };
+
