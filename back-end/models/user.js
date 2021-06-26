@@ -1,23 +1,5 @@
-/* eslint-disable max-len */
-/* !
-
-=========================================================
-* Argon React NodeJS - v1.0.0
-=========================================================
-
-* Product Page: https://argon-dashboard-react-nodejs.creative-tim.com/
-* Copyright 2020 Creative Tim (https://https://www.creative-tim.com//)
-* Copyright 2020 ProjectData (https://projectdata.dev/)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react-nodejs/blob/main/README.md)
-
-* Coded by Creative Tim & ProjectData
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 const mongoose = require('mongoose');
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -28,23 +10,37 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  photo: {
+    type: Buffer,
+  },
   password: {
     type: String,
     required: true,
   },
-  accountConfirmation: {
+  verified: {
     type: Boolean,
     default: false,
   },
-  resetPass: {
-    type: Boolean,
-    default: false,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
+  resetPassToken: String,
+  resetPassTokenExpires: Date,
 });
+
+
+UserSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.resetPassToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  //console.log({ resetToken }, this.passwordResetToken);
+
+  this.resetPassTokenExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
+
 
 const User = mongoose.model('User', UserSchema);
 
