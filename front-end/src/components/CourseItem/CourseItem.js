@@ -107,7 +107,7 @@ function CourseItem(props) {
             width={"100%"} height={"auto"}
             controls
             styles={{ backgroundSize: "contain!important" }}
-            url="https://www.youtube.com/embed/UPG2HafMsHQ" />
+            url={courseItem.video} />
         </div>
         <div
           className={classes.root}
