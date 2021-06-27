@@ -75,7 +75,7 @@ class Home extends React.Component {
                             </Switch>
                         </Row>
                     </Container>
-                    {localStorage.getItem("user") && <ChatBot />}
+                    <ChatBot />
                 </div>
                 <AuthFooter />
             </>
