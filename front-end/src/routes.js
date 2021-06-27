@@ -28,6 +28,7 @@ import ConfirmPassword from "./views/examples/ConfirmPassword";
 import ResetPasswordSuccess from "./views/examples/ResetPasswordSuccess";
 import HomePage from './home/index';
 import Home from './layouts/Home.js';
+import Call from './components/agoraMeet/Call'
 var routes = [
   {
     path: "/home",
@@ -61,7 +62,15 @@ var routes = [
     layout: "/admin",
     api: true
   },
-  
+  {
+    path: "/meet-with-mentor",
+    name: "Meet with Mentor",
+    icon: "ni ni-single-02 text-yellow",
+    component: Call,
+    layout: "/admin",
+    api: true
+  },
+
   {
     path: "/login",
     name: "Login",
