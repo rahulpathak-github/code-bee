@@ -5,7 +5,6 @@ import "react-chat-widget/lib/styles.css";
 import { useEffect } from "react";
 
 function ChatBot() {
-  const user = localStorage.getItem("user");
   useEffect(() => {
     addResponseMessage("Hi! What is your name?");
   }, []);
@@ -30,7 +29,7 @@ function ChatBot() {
       );
       return response;
     };
-    const response = await interact(user._id, newMessage);
+    const response = await interact("Sample User", newMessage);
     response.json().then((res) => {
       console.log(res);
       const [a, _] = res;

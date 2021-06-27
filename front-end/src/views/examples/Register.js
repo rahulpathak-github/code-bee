@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import {
@@ -33,7 +33,7 @@ import {
     Col
 } from "reactstrap";
 import Toast from 'react-bootstrap/Toast'
-import {register} from "../../network/ApiAxios";
+import { register } from "../../network/ApiAxios";
 import config from "../../config";
 
 const Register = () => {
@@ -45,7 +45,7 @@ const Register = () => {
     const [checkbox, setCheckbox] = useState(false);
     const [error, setError] = useState("");
     const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState("Email sent! Check it to reset your password.");
+    const [toastMessage, setToastMessage] = useState("Email sent! Click on the link to verify yourself, then login (Check in spam folder as well).");
     const [userID, setUserID] = useState(null);
 
     const registerUser = async () => {
@@ -59,7 +59,7 @@ const Register = () => {
             return;
         }
         const response = await register(name, email, password);
-        const {data} = response;
+        const { data } = response;
         if (!data.success) {
             setError(data.msg);
             return;
@@ -100,7 +100,7 @@ const Register = () => {
                     borderRadius: 10
                 }} onClose={() => setShowToast(false)} show={showToast} delay={10000} autohide={!config.DEMO}>
                     <Toast.Header>
-                        <img style={{height: "30px", width: "100px"}} src={require("assets/img/brand/argon-react.png").default}  alt="..."/>
+                        <img style={{ height: "30px", width: "100px" }} src={require("assets/img/brand/argon-react.png").default} alt="..." />
                     </Toast.Header>
                     <Toast.Body>
                         {toastMessage}
@@ -124,12 +124,12 @@ const Register = () => {
                                 href="#pablo"
                                 onClick={e => e.preventDefault()}
                             >
-                    <span className="btn-inner--icon">
-                        <img
-                            alt="..."
-                            src={require("assets/img/icons/common/github.svg").default}
-                        />
-                    </span>
+                                <span className="btn-inner--icon">
+                                    <img
+                                        alt="..."
+                                        src={require("assets/img/icons/common/github.svg").default}
+                                    />
+                                </span>
                                 <span className="btn-inner--text">Github</span>
                             </Button>
                             <Button
@@ -138,12 +138,12 @@ const Register = () => {
                                 href="#pablo"
                                 onClick={e => e.preventDefault()}
                             >
-                  <span className="btn-inner--icon">
-                    <img
-                        alt="..."
-                        src={require("assets/img/icons/common/google.svg").default}
-                    />
-                  </span>
+                                <span className="btn-inner--icon">
+                                    <img
+                                        alt="..."
+                                        src={require("assets/img/icons/common/google.svg").default}
+                                    />
+                                </span>
                                 <span className="btn-inner--text">Google</span>
                             </Button>
                         </div>
@@ -157,11 +157,11 @@ const Register = () => {
                                 <InputGroup className="input-group-alternative mb-3">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-hat-3"/>
+                                            <i className="ni ni-hat-3" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Name" type="text" value={name}
-                                           onChange={e => setName(e.target.value)}
+                                        onChange={e => setName(e.target.value)}
                                     />
                                 </InputGroup>
                             </FormGroup>
@@ -169,11 +169,11 @@ const Register = () => {
                                 <InputGroup className="input-group-alternative mb-3">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-email-83"/>
+                                            <i className="ni ni-email-83" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Email" type="email" autoComplete="new-email" value={email}
-                                           onChange={e => setEmail(e.target.value)}
+                                        onChange={e => setEmail(e.target.value)}
                                     />
                                 </InputGroup>
                             </FormGroup>
@@ -181,11 +181,11 @@ const Register = () => {
                                 <InputGroup className="input-group-alternative">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-lock-circle-open"/>
+                                            <i className="ni ni-lock-circle-open" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Password" type="password" autoComplete="new-password" value={password}
-                                           onChange={e => setPassword(e.target.value)}
+                                        onChange={e => setPassword(e.target.value)}
                                     />
                                 </InputGroup>
                             </FormGroup>
@@ -193,21 +193,21 @@ const Register = () => {
                                 <InputGroup className="input-group-alternative">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-lock-circle-open"/>
+                                            <i className="ni ni-lock-circle-open" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Confirm Password" type="password" autoComplete="new-password" value={confirmPassword}
-                                           onChange={e => setConfirmPassword(e.target.value)}
+                                        onChange={e => setConfirmPassword(e.target.value)}
                                     />
                                 </InputGroup>
                             </FormGroup>
                             {error ?
-                            <div className="text-muted font-italic">
-                                <small>
-                                    error:{" "}
-                                    <span className="text-red font-weight-700">{error}</span>
-                                </small>
-                            </div> : null }
+                                <div className="text-muted font-italic">
+                                    <small>
+                                        error:{" "}
+                                        <span className="text-red font-weight-700">{error}</span>
+                                    </small>
+                                </div> : null}
                             <Row className="my-4">
                                 <Col xs="12">
                                     <div className="custom-control custom-control-alternative custom-checkbox">
@@ -222,12 +222,12 @@ const Register = () => {
                                             className="custom-control-label"
                                             htmlFor="customCheckRegister"
                                         >
-                        <span className="text-muted">
-                          I agree with the{" "}
-                            <a href="#pablo" onClick={e => e.preventDefault()}>
-                            Privacy Policy
-                          </a>
-                        </span>
+                                            <span className="text-muted">
+                                                I agree with the{" "}
+                                                <a href="#pablo" onClick={e => e.preventDefault()}>
+                                                    Privacy Policy
+                                                </a>
+                                            </span>
                                         </label>
                                     </div>
                                 </Col>
