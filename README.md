@@ -11,6 +11,32 @@ The new Education policy 2021 has opened up the field of Computer Science to you
 
 Also, the content is not designed for secondary school students. Therefore we came up with this innovation to provide students with free-of-cost study materials. Kids can learn logic, structure, sequence, and creative expression just as having fun around.  
 
+
+## API Reference
+
+#### Get all items
+
+```http
+  GET /api/items
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+
+#### Get item
+
+```http
+  GET /api/items/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+content
+
+  
 ## Demo
 
 
