@@ -23,7 +23,7 @@ function HomeNavbar() {
             >
                 <Container className="px-4">
                     <NavbarBrand to="/home" tag={Link}>
-                        <img alt="..." src={require("assets/img/brand/argon-react-white.png").default} />
+                        <img alt="..." src={require("assets/img/brand/argon-react-white.png").default} style={{height:'50px'}} />                        
                     </NavbarBrand>
                     <button className="navbar-toggler" id="navbar-collapse-main">
                         <span className="navbar-toggler-icon" />
