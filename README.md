@@ -50,7 +50,7 @@ Link to Video demonstration:
   
 ## Screenshots
 
-![App Screenshot](https://user-images.githubusercontent.com/63184114/123545846-cddfac00-d777-11eb-8c11-b741e8497e70.png)
+<img src="https://user-images.githubusercontent.com/63184114/123545846-cddfac00-d777-11eb-8c11-b741e8497e70.png " width="60%">.
 
 ## Login Credentials:
 
