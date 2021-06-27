@@ -39,7 +39,7 @@ function CommentBox(props) {
     const socketClientRef = useRef()
 
     useEffect(() => {
-        const io = socketio("http://localhost:5100/", {
+        const io = socketio("http://172.105.63.162:5100/", {
             query: {
                 token: localStorage.getItem("token"),
             }, withCredentials: true
@@ -137,7 +137,7 @@ function Discussion(props) { // props -> courseItem id
 
     useEffect(() => {
         getComments()
-        const io = socketio("http://localhost:5100/", {
+        const io = socketio("http://172.105.63.162:5100/", {
             query: {
                 token: localStorage.getItem("token"),
             }, withCredentials: true
