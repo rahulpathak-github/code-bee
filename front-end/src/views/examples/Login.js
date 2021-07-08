@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import {
@@ -32,7 +15,8 @@ import {
     Row,
     Col
 } from "reactstrap";
-import {login} from "../../network/ApiAxios";
+import { login, googleLogin, githubLogin } from "../../network/ApiAxios";
+import GoogleLogin from 'react-google-login';
 
 const Login = props => {
 
@@ -40,9 +24,10 @@ const Login = props => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const tryLogin = async () => {
-        const response = await login(email, password);
-        const {data} = response;
+    async function verify() {
+        const response = await githubLogin({ code: params[1] });
+        console.log(response);
+        const { data } = response;
         if (data.success) {
             setError("");
             localStorage.setItem("token", data.token);
@@ -52,6 +37,46 @@ const Login = props => {
             setPassword("");
             setError(data.msg);
         }
+    }
+
+    const url = window.location.href;
+    let params = url.split('?');
+    if (params && params.length == 2) {
+        params = params[1].split('=');
+        if (params && params.length == 2 && params[0] == 'code') verify();
+    }
+
+    const tryLogin = async () => {
+        const response = await login(email, password);
+        const { data } = response;
+        if (data.success) {
+            setError("");
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            props.history.push("/");
+        } else {
+            setPassword("");
+            setError(data.msg);
+        }
+    }
+
+    const GoogleSuccess = async (user) => {
+        const response = await googleLogin(user);
+        console.log(response);
+        const { data } = response;
+        if (data.success) {
+            setError("");
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            props.history.push("/");
+        } else {
+            setPassword("");
+            setError(data.msg);
+        }
+    }
+
+    const GoogleFailure = (error) => {
+        console.log(error);
     }
 
     return (
@@ -66,31 +91,38 @@ const Login = props => {
                             <Button
                                 className="btn-neutral btn-icon"
                                 color="default"
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
+                                href="https://github.com/login/oauth/authorize/?client_id=510b187edd263818bb91&scope=user:email"
                             >
-                  <span className="btn-inner--icon">
-                    <img
-                        alt="..."
-                        src={require("assets/img/icons/common/github.svg").default}
-                    />
-                  </span>
+                                <span className="btn-inner--icon">
+                                    <img
+                                        alt="..."
+                                        src={require("assets/img/icons/common/github.svg").default}
+                                    />
+                                </span>
                                 <span className="btn-inner--text">Github</span>
                             </Button>
-                            <Button
-                                className="btn-neutral btn-icon"
-                                color="default"
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                  <span className="btn-inner--icon">
-                    <img
-                        alt="..."
-                        src={require("assets/img/icons/common/google.svg").default}
-                    />
-                  </span>
-                                <span className="btn-inner--text">Google</span>
-                            </Button>
+                            <GoogleLogin
+                                clientId={'1074810629717-uh5m2u4mphnel9pgll5bog05oc9aglr6.apps.googleusercontent.com'}
+                                render={renderProps => (
+                                    <Button
+                                        className="btn-neutral btn-icon"
+                                        color="default"
+                                        onClick={renderProps.onClick}
+                                    >
+                                        <span className="btn-inner--icon">
+                                            <img
+                                                alt="..."
+                                                src={require("assets/img/icons/common/google.svg").default}
+                                            />
+                                        </span>
+                                        <span className="btn-inner--text">Google</span>
+                                    </Button>
+                                )}
+                                onSuccess={GoogleSuccess}
+                                onFailure={GoogleFailure}
+                                cookiePolicy={'single_host_origin'}
+                            />
+
                         </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -102,22 +134,22 @@ const Login = props => {
                                 <InputGroup className="input-group-alternative">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-email-83"/>
+                                            <i className="ni ni-email-83" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Email" type="email" autoComplete="email" value={email}
-                                           onChange={e => setEmail(e.target.value)}/>
+                                        onChange={e => setEmail(e.target.value)} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup className="input-group-alternative">
                                     <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
-                                            <i className="ni ni-lock-circle-open"/>
+                                            <i className="ni ni-lock-circle-open" />
                                         </InputGroupText>
                                     </InputGroupAddon>
                                     <Input placeholder="Password" type="password" autoComplete="password" value={password}
-                                           onChange={e => setPassword(e.target.value)}/>
+                                        onChange={e => setPassword(e.target.value)} />
                                 </InputGroup>
                             </FormGroup>
                             {/*<div className="custom-control custom-control-alternative custom-checkbox">*/}
@@ -139,7 +171,7 @@ const Login = props => {
                                         error:{" "}
                                         <span className="text-red font-weight-700">{error}</span>
                                     </small>
-                                </div> : null }
+                                </div> : null}
                             <div className="text-center">
                                 <Button className="my-4" color="primary" type="button" onClick={tryLogin}>
                                     Sign in

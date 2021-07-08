@@ -36,6 +36,14 @@ export const login = async (email, password) => (
     await instance.post('users/login', { email, password })
 );
 
+export const googleLogin = async (user) => {
+    return await instance.post('users/googleLogin', user)
+}
+
+export const githubLogin = async (code) => {
+    return await instance.post('users/githublogin', code);
+}
+
 export const logout = async token => (
     await instance.post('users/logout', { token })
 );

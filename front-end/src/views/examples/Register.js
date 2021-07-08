@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { useState } from "react";
 
 // reactstrap components
@@ -33,11 +16,11 @@ import {
     Col
 } from "reactstrap";
 import Toast from 'react-bootstrap/Toast'
-import { register } from "../../network/ApiAxios";
+import { register, googleLogin } from "../../network/ApiAxios";
 import config from "../../config";
+import GoogleLogin from 'react-google-login';
 
-const Register = () => {
-
+const Register = (props) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -76,6 +59,24 @@ const Register = () => {
         setCheckbox(false);
         setShowToast(true);
     };
+
+
+    const GoogleSuccess = async (user) => {
+        const response = await googleLogin(user);
+        const { data } = response;
+        if (!data.success) {
+            setError(data.msg);
+            return;
+        }
+        setError("");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        props.history.push("/");
+    }
+
+    const GoogleFailure = (error) => {
+        console.log(error);
+    }
 
     return (
         <>
@@ -121,8 +122,7 @@ const Register = () => {
                             <Button
                                 className="btn-neutral btn-icon mr-4"
                                 color="default"
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
+                                href="https://github.com/login/oauth/authorize/?client_id=510b187edd263818bb91&scope=user:email"
                             >
                                 <span className="btn-inner--icon">
                                     <img
@@ -132,20 +132,27 @@ const Register = () => {
                                 </span>
                                 <span className="btn-inner--text">Github</span>
                             </Button>
-                            <Button
-                                className="btn-neutral btn-icon"
-                                color="default"
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                <span className="btn-inner--icon">
-                                    <img
-                                        alt="..."
-                                        src={require("assets/img/icons/common/google.svg").default}
-                                    />
-                                </span>
-                                <span className="btn-inner--text">Google</span>
-                            </Button>
+                            <GoogleLogin
+                                clientId={'1074810629717-uh5m2u4mphnel9pgll5bog05oc9aglr6.apps.googleusercontent.com'}
+                                render={renderProps => (
+                                    <Button
+                                        className="btn-neutral btn-icon"
+                                        color="default"
+                                        onClick={renderProps.onClick}
+                                    >
+                                        <span className="btn-inner--icon">
+                                            <img
+                                                alt="..."
+                                                src={require("assets/img/icons/common/google.svg").default}
+                                            />
+                                        </span>
+                                        <span className="btn-inner--text">Google</span>
+                                    </Button>
+                                )}
+                                onSuccess={GoogleSuccess}
+                                onFailure={GoogleFailure}
+                                cookiePolicy={'single_host_origin'}
+                            />
                         </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">

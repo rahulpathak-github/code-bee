@@ -7,6 +7,8 @@ const ActiveSession = require('../models/activeSession');
 //const { smtpConf } = require('../config/config');
 const sendEmail = require('../utils/sendEmail')
 const crypto = require("crypto");
+const FormData = require("form-data");
+const fetch = require("node-fetch");
 
 exports.getProfile = async (req, res, next) => {
     try {
@@ -28,10 +30,12 @@ exports.login = async (req, res, next) => {
         //if (err) throw err;
 
         if (!user) {
-            return res.json({ success: false, msg: 'Wrong credentials' });
+            return res.json({ success: false, msg: 'User not registered' });
         }
 
         if (!user.verified) {
+            // Did change here for google/github user, trying to login.
+            if (!user.password) return res.json({ success: false, msg: 'User not registered' });
             return res.json({ success: false, msg: 'Account is not confirmed' });
         }
 
@@ -60,12 +64,129 @@ exports.login = async (req, res, next) => {
     }
 }
 
+exports.googleLogin = async (req, res) => {
+    const data = req.body;
+
+    const profile = data.profileObj;
+    // console.log(profile);
+    try {
+        let user = await User.findOne({ email: profile.email }).catch(e => console.log(e));
+
+        if (!user) {
+            user = await googleRegister(profile);
+        }
+        // console.log(user);
+        const token = jwt.sign(user, config.secret, {
+            expiresIn: 86400, // 1 week
+        });
+
+        const query = { userId: user._id, token: 'JWT ' + token };
+        ActiveSession.create(query, (err, cd) => {
+            user.password = null;
+            user.__v = null;
+            return res.json({
+                success: true,
+                token: 'JWT ' + token,
+                user
+            });
+        });
+    } catch (err) {
+        throw err
+    }
+}
+
+exports.githubLogin = async (req, res) => {
+    const { code } = req.body;
+    console.log("100 ", code);
+    const data = new FormData();
+    data.append("client_id", process.env.CLIENT_ID);
+    data.append("client_secret", process.env.CLIENT_SECRET);
+    data.append("code", code);
+    data.append("redirect_uri", "http://localhost:3000/auth/login");
+
+    // Request to exchange code for an access token
+    fetch(`https://github.com/login/oauth/access_token`, {
+        method: "POST",
+        body: data,
+    })
+        .then((response) => response.text())
+        .then((paramsString) => {
+            let params = new URLSearchParams(paramsString);
+            const access_token = params.get("access_token");
+            console.log("Access_token: ", access_token);
+            if (!access_token) return res.json({ success: false, msg: 'User Not Found' });
+            fetch(`https://api.github.com/user/emails`, {
+                headers: {
+                    Authorization: `token ${access_token}`,
+                },
+            })
+                .then((response) => { console.log(response.status); return response.json(); })
+                .then(async (response) => {
+                    const email = response[0].email, username = response[1].email.split('@')[0].split('+')[1];
+                    console.log(email, username);
+
+                    try {
+                        let user = await User.findOne({ email: email }).catch(e => console.log(e));
+                        console.log(user);
+                        if (!user) {
+                            user = await githubRegister(email, username);
+                        }
+
+                        const token = jwt.sign(user, config.secret, {
+                            expiresIn: 86400, // 1 week
+                        });
+
+                        const query = { userId: user._id, token: 'JWT ' + token };
+                        ActiveSession.create(query, (err, cd) => {
+                            user.password = null;
+                            user.__v = null;
+                            return res.json({
+                                success: true,
+                                token: 'JWT ' + token,
+                                user
+                            });
+                        });
+                    } catch (err) {
+                        throw err
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return res.json({ success: false, msg: 'User Not Found' });
+                });
+
+        })
+        .catch((error) => {
+            console.log(error);
+            return res.json({ success: false, msg: 'User Not Found' });
+        });
+}
+
+async function googleRegister(profile) {
+    const { name, email, imageUrl } = profile;
+    const query = {
+        name: name,
+        email: email,
+        photo: imageUrl
+    };
+    return await User.create(query).catch(e => console.log(e));
+}
+
+async function githubRegister(email, name) {
+    const query = {
+        name: name,
+        email: email,
+    };
+    return await User.create(query).catch(e => console.log(e));
+}
+
 exports.register = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     try {
         const user = await User.findOne({ email: email })
-        if (user) {
+        if (user && user.password) {
+            // Checked if user is not registered from google/github. 
             res.json({ success: false, msg: 'Email already exists' });
         } else if (password.length < 6) {
             // eslint-disable-next-line max-len
@@ -125,8 +246,7 @@ exports.confirmMail = async (req, res, next) => {
 
         const newvalues = { $set: { verified: true } };
         await User.updateOne(query, newvalues)
-        res.json({ success: true });
-
+        res.send("<p> Your email-id has been verified, You will be redirected to login page or <a href='http://localhost:3000/auth/login'> click here to login</a> </p> <script>setTimeout(function(){ window.location = 'http://localhost:3000/auth/login' },3000)</script>");
     } catch (err) {
         throw err
     }

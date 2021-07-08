@@ -15,7 +15,6 @@ import Discussion from './components/Discussion/Discussion';
 import HomeLayout from "layouts/Home";
 import Index from './home/index';
 import Home from "layouts/Home";
-import HomeNavbar from "components/Navbars/HomeNavbar";
 
 ReactDOM.render(
   <BrowserRouter>
