@@ -40,8 +40,6 @@ content
 ## Demo
 
 
-Check out here  -> [CodeBee](http://172.105.63.162:3000/home)
-
 Link to Video demonstration:
 
  https://drive.google.com/file/d/1bf-XFyX5jimH0-yA8SPBsi1mjtb14cTh/view
@@ -70,8 +68,6 @@ password: password
   React strap 
   
   Material UI 
-  
-  Linode 
   
   VoiceFlow 
   
